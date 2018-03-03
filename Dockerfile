@@ -4,7 +4,7 @@ ENV LANG=en_US.UTF-8
 
 RUN \
   apt-get update && \
- apt-get install -y \
+  apt-get install -y \
     autoconf \
     automake \
     cmake \
@@ -38,6 +38,7 @@ RUN \
     
     git clone https://github.com/steemit/steem && \
     cd steem && \
+    git checkout tags/v0.19.2 && \ 
     git submodule update --init --recursive && \
     mkdir build && \
     cd build && \
@@ -82,14 +83,31 @@ RUN \
     libreadline-dev \
     perl
 
+# config 
+ENV TESTNET_DIR=/testnet
+ENV SCRIPTS_DIR=/scripts
+
+#wallet password
+ENV WALLET_PWD=kryptokrauts
+# inital account
+ENV ACCOUNT=krautfather
+
 # rpc service:
-EXPOSE 9876
+ENV PORT=9876
+EXPOSE $PORT
 # p2p service:
 EXPOSE 2001
 
 RUN \
-	mkdir /testnet
-ADD config.ini /testnet/config.ini
-#RUN chmod +x /usr/local/bin/steemd.sh
-CMD /steem/build/programs/steemd/steemd -d testnet --enable-stale-production
+	mkdir $TESTNET_DIR
+
+RUN \
+	mkdir $SCRIPTS_DIR
+
+ADD config.ini $TESTNET_DIR/config.ini
+ADD testnet_config.here $SCRIPTS_DIR/testnet_config.here
+ADD testnet_wallet_init.sh $SCRIPTS_DIR/testnet_wallet_init.sh
+ADD start_testnet.sh $SCRIPTS_DIR/start_testnet.sh 
+
+CMD $SCRIPTS_DIR/start_testnet.sh 
 
