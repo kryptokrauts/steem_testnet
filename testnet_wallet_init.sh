@@ -25,17 +25,19 @@ initialized=0
 
 # connect to blockchain and check if wallet is already initialized 
 # - this is the case, if the blockchain dir is mounted to a dir
-log="$(/steem/build/programs/cli_wallet/cli_wallet --server-rpc-endpoint="ws://127.0.0.1:$PORT" << EOF
-EOF)"
+
+sleep 15
+
+log=`$SCRIPTS_DIR/check_cmd.here`
 echo "log: $log"
-initialized="$(echo $log | grep -c "initialize")"
-if [ $initialized -lt 1 ] ; then
+to_init="$(echo $log | grep -c "initialize")"
+if [ $to_init -gt 0 ] ; then
 	echo "steem testnet not initialized, starting init script" 	
 	else
-	echo "steemt testnet already initialized, init script will not be started"
+	echo "steem testnet already initialized, init script will not be started"
 fi
 
-if [ $initialized == 0 ] ; then
+if [ $to_init -gt 0 ] ; then
 while [ $result -lt 1 ] ; do
         echo "trying to create wallet and account"
         sleep 10

@@ -83,20 +83,22 @@ RUN \
     libreadline-dev \
     perl
 
-# config 
-ENV TESTNET_DIR=/testnet
-ENV SCRIPTS_DIR=/scripts
+# rpc service:
+ENV PORT=9876
+EXPOSE $PORT
+# p2p service:
+EXPOSE 2001
 
 #wallet password
 ENV WALLET_PWD=kryptokrauts
 # inital account
 ENV ACCOUNT=krautfather
 
-# rpc service:
-ENV PORT=9876
-EXPOSE $PORT
-# p2p service:
-EXPOSE 2001
+# config 
+ENV TESTNET_DIR=/testnet
+ENV SCRIPTS_DIR=/scripts
+ENV WALLET_FILE=$TESTNET_DIR/krautwallet.json
+ENV CLI_CMD="/steem/build/programs/cli_wallet/cli_wallet -w $WALLET_FILE --server-rpc-endpoint=ws://127.0.0.1:$PORT"
 
 RUN \
 	mkdir $TESTNET_DIR
@@ -106,6 +108,7 @@ RUN \
 
 ADD config.ini $TESTNET_DIR/config.ini
 ADD testnet_config.here $SCRIPTS_DIR/testnet_config.here
+ADD check_cmd.here $SCRIPTS_DIR/check_cmd.here
 ADD testnet_wallet_init.sh $SCRIPTS_DIR/testnet_wallet_init.sh
 ADD start_testnet.sh $SCRIPTS_DIR/start_testnet.sh 
 

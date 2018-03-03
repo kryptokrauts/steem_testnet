@@ -1,8 +1,9 @@
 #try to add the given account using cli_wallet
-/steem/build/programs/cli_wallet/cli_wallet --server-rpc-endpoint="ws://127.0.0.1:$PORT" << EOF
+$CLI_CMD << EOF
  set_password "$WALLET_PWD"
  unlock $WALLET_PWD
  import_key 5JNHfZYKGaomSFvd4NUdQ9qMcEAC43kujbfjueTHpVapX1Kzq2n
  create_account "initminer" $ACCOUNT "" true
  transfer_to_vesting "initminer" "$ACCOUNT" "1.000 TESTS" true
+ save_wallet_file $WALLET_FILE
 EOF
