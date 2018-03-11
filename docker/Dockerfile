@@ -46,6 +46,11 @@ RUN \
         -DBUILD_STEEM_TESTNET=ON \        
         ..
 
+# Kryptokrauts adaptions
+ENV SRC_DIR=src
+COPY $SRC_DIR/main.cpp /steem/programs/steemd/main.cpp
+COPY $SRC_DIR/witness_plugin.cpp /steem/libraries/plugins/witness/witness_plugin.cpp
+
 RUN \
     cd steem/build/ &&\
     make -j$(nproc) steemd &&\
@@ -97,8 +102,10 @@ ENV ACCOUNT=krautfather
 # config 
 ENV TESTNET_DIR=/testnet
 ENV SCRIPTS_DIR=/scripts
+
 ENV WALLET_FILE=$TESTNET_DIR/krautwallet.json
 ENV CLI_CMD="/steem/build/programs/cli_wallet/cli_wallet -w $WALLET_FILE --server-rpc-endpoint=ws://127.0.0.1:$PORT"
+ENV KEYS_DIR=/testnet/keys
 
 RUN \
 	mkdir $TESTNET_DIR
@@ -106,11 +113,16 @@ RUN \
 RUN \
 	mkdir $SCRIPTS_DIR
 
+RUN \
+	mkdir $KEYS_DIR
+
 ADD config.ini $TESTNET_DIR/config.ini
 ADD testnet_config.here $SCRIPTS_DIR/testnet_config.here
 ADD check_cmd.here $SCRIPTS_DIR/check_cmd.here
 ADD testnet_wallet_init.sh $SCRIPTS_DIR/testnet_wallet_init.sh
 ADD start_testnet.sh $SCRIPTS_DIR/start_testnet.sh 
+
+ADD parser $TESTNET_DIR/parser
 
 CMD $SCRIPTS_DIR/start_testnet.sh 
 

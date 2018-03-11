@@ -41,8 +41,8 @@ if [ $to_init -gt 0 ] ; then
 while [ $result -lt 1 ] ; do
         echo "trying to create wallet and account"
         sleep 10
-	$SCRIPTS_DIR/testnet_config.here >> initialize_wallet.log
-        result=$(grep -c 'unlocked' initialize_wallet.log)
+	$SCRIPTS_DIR/testnet_config.here >> $KEYS_DIR/initialize_wallet.log
+        result=$(grep -c 'unlocked' $KEYS_DIR/initialize_wallet.log)
 	if [ $result -lt 1 ] ; then
 		echo "steem testnet not up, waiting..."
 	else	
