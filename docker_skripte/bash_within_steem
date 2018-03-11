@@ -1,0 +1,5 @@
+/steem/build/programs/cli_wallet/cli_wallet --server-rpc-endpoint="ws://127.0.0.1:9876"
+
+/steem/build/programs/cli_wallet/cli_wallet --server-rpc-endpoint="ws://127.0.0.1:9876" <cmd.in
+
+
