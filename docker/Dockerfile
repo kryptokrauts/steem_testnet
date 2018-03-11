@@ -48,8 +48,8 @@ RUN \
 
 # Kryptokrauts adaptions
 ENV SRC_DIR=src
-COPY $SRC_DIR/main.cpp /steem/programs/steemd/main.cpp
-COPY $SRC_DIR/witness_plugin.cpp /steem/libraries/plugins/witness/witness_plugin.cpp
+COPY $SRC_DIR/steemd/main.cpp /steem/programs/steemd/main.cpp
+COPY $SRC_DIR/witness_plugin/witness_plugin.cpp /steem/libraries/plugins/witness/witness_plugin.cpp
 
 RUN \
     cd steem/build/ &&\
