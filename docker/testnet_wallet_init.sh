@@ -56,4 +56,4 @@ echo "Extracting keys"
 TMP=$(cat $TESTNET_DIR/initialize_wallet.log)
 echo $TMP | grep -o -P '(?<=get_account '$ACCOUNT').*(?=} unlocked >>> list)'} > $TESTNET_DIR/pubkeys.json
 echo $TMP | grep -o -P '(?<=list_keys).*(?=] unlocked)'] > $TESTNET_DIR/privkeys.json
-python3 $TESTNET_DIR/parser/parse.py $TESTNET_DIR/pubkeys.json $TESTNET_DIR/privkeys.json > $KEYS_DIR/keys.csv 
+python3 $TESTNET_DIR/parser/parse.py $TESTNET_DIR/pubkeys.json $TESTNET_DIR/privkeys.json $ACCOUNT > $KEYS_DIR/keys.csv

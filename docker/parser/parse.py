@@ -2,11 +2,11 @@ import json
 import sys
 from pprint import pprint
 
-if len(sys.argv) < 3:
-	print('provide public and private key file')
+if len(sys.argv) < 4:
+	print('provide public key file, private key file and account name')
 	sys.exit()
 else:
-	print('using public key file: ',sys.argv[1],'\nprivate key file: ',sys.argv[2])
+	print('[debug] using files - public: ',sys.argv[1],', private: ',sys.argv[2])
 
 data = json.load(open(sys.argv[1]))
 
@@ -21,6 +21,8 @@ memoKey = data['memo_key']
 #print(memoKey);
 
 data = json.load(open(sys.argv[2]))
+
+print('Account: ',sys.argv[3])
 
 for key in data:		
 	if ownerKey == key[0]:
