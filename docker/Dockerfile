@@ -68,7 +68,6 @@ RUN \
     libtool \
     make \
     pkg-config \
-    python3 \
     python3-jinja2 \
     libboost-chrono-dev \
     libboost-context-dev \
@@ -121,6 +120,9 @@ ADD testnet_config.here $SCRIPTS_DIR/testnet_config.here
 ADD check_cmd.here $SCRIPTS_DIR/check_cmd.here
 ADD testnet_wallet_init.sh $SCRIPTS_DIR/testnet_wallet_init.sh
 ADD start_testnet.sh $SCRIPTS_DIR/start_testnet.sh 
+
+RUN \
+	mkdir $TESTNET_DIR/parser
 
 ADD parser $TESTNET_DIR/parser
 

@@ -4,6 +4,8 @@ $CLI_CMD << EOF
  unlock $WALLET_PWD
  import_key 5JNHfZYKGaomSFvd4NUdQ9qMcEAC43kujbfjueTHpVapX1Kzq2n
  create_account "initminer" $ACCOUNT "" true
+ get_account $ACCOUNT
+ list_keys
  transfer_to_vesting "initminer" "$ACCOUNT" "1.000 TESTS" true
  save_wallet_file $WALLET_FILE
 EOF

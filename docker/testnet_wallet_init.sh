@@ -41,8 +41,8 @@ if [ $to_init -gt 0 ] ; then
 while [ $result -lt 1 ] ; do
         echo "trying to create wallet and account"
         sleep 10
-	$SCRIPTS_DIR/testnet_config.here >> $KEYS_DIR/initialize_wallet.log
-        result=$(grep -c 'unlocked' $KEYS_DIR/initialize_wallet.log)
+	$SCRIPTS_DIR/testnet_config.here > $TESTNET_DIR/initialize_wallet.log
+        result=$(grep -c 'unlocked' $TESTNET_DIR/initialize_wallet.log)
 	if [ $result -lt 1 ] ; then
 		echo "steem testnet not up, waiting..."
 	else	
@@ -50,3 +50,10 @@ while [ $result -lt 1 ] ; do
 	fi
 done
 fi
+
+echo "Extracting keys"
+# save keys to csv
+TMP=$(cat $TESTNET_DIR/initialize_wallet.log)
+echo $TMP | grep -o -P '(?<=get_account '$ACCOUNT').*(?=} unlocked >>> list)'} > $TESTNET_DIR/pubkeys.json
+echo $TMP | grep -o -P '(?<=list_keys).*(?=] unlocked)'] > $TESTNET_DIR/privkeys.json
+python3 $TESTNET_DIR/parser/parse.py $TESTNET_DIR/pubkeys.json $TESTNET_DIR/privkeys.json > $KEYS_DIR/keys.csv 

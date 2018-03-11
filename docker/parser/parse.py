@@ -1,19 +1,26 @@
 import json
+import sys
 from pprint import pprint
 
-data = json.load(open('accounts.json'))
+if len(sys.argv) < 3:
+	print('provide public and private key file')
+	sys.exit()
+else:
+	print('using public key file: ',sys.argv[1],'\nprivate key file: ',sys.argv[2])
 
-ownerKey = data['result'][0]['owner']['key_auths'][0][0]
-activeKey = data['result'][0]['active']['key_auths'][0][0]
-postingKey = data['result'][0]['posting']['key_auths'][0][0]
-memoKey = data['result'][0]['memo_key']
+data = json.load(open(sys.argv[1]))
+
+ownerKey = data['owner']['key_auths'][0][0]
+activeKey = data['active']['key_auths'][0][0]
+postingKey = data['posting']['key_auths'][0][0]
+memoKey = data['memo_key']
 
 #print(ownerKey);
 #print(activeKey);
 #print(postingKey);
 #print(memoKey);
 
-data = json.load(open('keys.json'))
+data = json.load(open(sys.argv[2]))
 
 for key in data:		
 	if ownerKey == key[0]:
